@@ -81,6 +81,7 @@
             this.tsmiОткрыть.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.tsmiОткрыть.Size = new System.Drawing.Size(173, 22);
             this.tsmiОткрыть.Text = "Открыть...";
+            this.tsmiОткрыть.Click += new System.EventHandler(this.tsmiОткрыть_Click);
             // 
             // tsmiАлгоритмыСжатия
             // 
@@ -95,6 +96,7 @@
             this.tsmiДеревоХаффмана.Name = "tsmiДеревоХаффмана";
             this.tsmiДеревоХаффмана.Size = new System.Drawing.Size(176, 22);
             this.tsmiДеревоХаффмана.Text = "Дерево Хаффмана";
+            this.tsmiДеревоХаффмана.Click += new System.EventHandler(this.tsmiДеревоХаффмана_Click);
             // 
             // statusStrip1
             // 

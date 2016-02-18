@@ -23,14 +23,24 @@ namespace DataReduction
 
             tbAlphabet.Text = result;
             lCharCount.Text = alphabet.CharCount.ToString();
-            lBitCount.Text = alphabet.GetBitCount(Encoding.UTF8).ToString();
-            lBitPerChar.Text = alphabet.GetBitPerChar(Encoding.UTF8).ToString("0.###");
+            lBitCount.Text = alphabet.GetBitCount(Encoding.ASCII).ToString();
+            lBitPerChar.Text = alphabet.GetBitPerChar(Encoding.ASCII).ToString("0.###");
             lEntropy.Text = alphabet.Entropy.ToString("0.###");
         }
 
         private void rtbIncoming_TextChanged(object sender, EventArgs e)
         {
             UpdateUI();
+        }
+
+        private void tsmiОткрыть_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("максимкаскотинка", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void tsmiДеревоХаффмана_Click(object sender, EventArgs e)
+        {
+            new HaffmanForm(new HaffmanTree(new Alphabet(rtbIncoming.Text))).Show();
         }
     }
 }
