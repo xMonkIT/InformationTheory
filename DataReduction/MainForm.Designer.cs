@@ -166,9 +166,8 @@
             // 
             // lEntropy
             // 
-            this.lEntropy.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.lEntropy.Name = "lEntropy";
-            this.lEntropy.Size = new System.Drawing.Size(17, 19);
+            this.lEntropy.Size = new System.Drawing.Size(13, 19);
             this.lEntropy.Text = "0";
             // 
             // splitContainer1

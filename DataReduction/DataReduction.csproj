@@ -54,6 +54,12 @@
       <DependentUpon>HaffmanForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HaffmanTree.cs" />
+    <Compile Include="LZForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LZForm.Designer.cs">
+      <DependentUpon>LZForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +70,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="HaffmanForm.resx">
       <DependentUpon>HaffmanForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LZForm.resx">
+      <DependentUpon>LZForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
