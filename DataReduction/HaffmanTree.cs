@@ -42,5 +42,20 @@ namespace DataReduction
 
             if (list.Count > 0) Root = list[0];
         }
+
+        private string Post(char ch, HaffmanTreeNode root, string buff)
+        {
+            if (root.Value == ch) return buff;
+            if (root.Left != null)
+            {
+                var str = Post(ch, root.Left, $"{buff}0");
+                if (str != "") return str;
+                str = Post(ch, root.Right, $"{buff}1");
+                return str;
+            }
+            return "";
+        }
+
+        public string GetCharCode(char ch) => Post(ch, Root, "");
     }
 }

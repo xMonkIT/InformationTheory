@@ -18,6 +18,7 @@ namespace DataReduction
         {
             InitializeComponent();
             if (tree.Root != null) TreeBypass(tree.Root, tvHaffmanTree.Nodes.Add(""));
+            tvHaffmanTree.ExpandAll();
         }
 
         private void TreeBypass(HaffmanTree.HaffmanTreeNode root, TreeNode node)

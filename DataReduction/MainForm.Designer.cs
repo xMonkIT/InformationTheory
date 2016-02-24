@@ -47,6 +47,8 @@
             this.rtbIncoming = new System.Windows.Forms.RichTextBox();
             this.tbAlphabet = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.lZippedCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsmiLZ78 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -62,7 +64,7 @@
             this.tsmiАлгоритмыСжатия});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(579, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(806, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -86,7 +88,8 @@
             // tsmiАлгоритмыСжатия
             // 
             this.tsmiАлгоритмыСжатия.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiДеревоХаффмана});
+            this.tsmiДеревоХаффмана,
+            this.tsmiLZ78});
             this.tsmiАлгоритмыСжатия.Name = "tsmiАлгоритмыСжатия";
             this.tsmiАлгоритмыСжатия.Size = new System.Drawing.Size(125, 20);
             this.tsmiАлгоритмыСжатия.Text = "Алгоритмы сжатия";
@@ -108,10 +111,11 @@
             this.toolStripStatusLabel5,
             this.lBitPerChar,
             this.toolStripStatusLabel3,
-            this.lEntropy});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 392);
+            this.lEntropy,
+            this.lZippedCount});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 413);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(579, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(806, 24);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -162,8 +166,9 @@
             // 
             // lEntropy
             // 
+            this.lEntropy.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.lEntropy.Name = "lEntropy";
-            this.lEntropy.Size = new System.Drawing.Size(13, 19);
+            this.lEntropy.Size = new System.Drawing.Size(17, 19);
             this.lEntropy.Text = "0";
             // 
             // splitContainer1
@@ -180,8 +185,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tbAlphabet);
-            this.splitContainer1.Size = new System.Drawing.Size(579, 368);
-            this.splitContainer1.SplitterDistance = 441;
+            this.splitContainer1.Size = new System.Drawing.Size(806, 389);
+            this.splitContainer1.SplitterDistance = 451;
             this.splitContainer1.TabIndex = 2;
             // 
             // rtbIncoming
@@ -189,7 +194,7 @@
             this.rtbIncoming.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbIncoming.Location = new System.Drawing.Point(0, 0);
             this.rtbIncoming.Name = "rtbIncoming";
-            this.rtbIncoming.Size = new System.Drawing.Size(441, 368);
+            this.rtbIncoming.Size = new System.Drawing.Size(451, 389);
             this.rtbIncoming.TabIndex = 0;
             this.rtbIncoming.Text = resources.GetString("rtbIncoming.Text");
             this.rtbIncoming.TextChanged += new System.EventHandler(this.rtbIncoming_TextChanged);
@@ -202,18 +207,30 @@
             this.tbAlphabet.Name = "tbAlphabet";
             this.tbAlphabet.ReadOnly = true;
             this.tbAlphabet.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbAlphabet.Size = new System.Drawing.Size(134, 368);
+            this.tbAlphabet.Size = new System.Drawing.Size(351, 389);
             this.tbAlphabet.TabIndex = 0;
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // lZippedCount
+            // 
+            this.lZippedCount.Name = "lZippedCount";
+            this.lZippedCount.Size = new System.Drawing.Size(0, 19);
+            // 
+            // tsmiLZ78
+            // 
+            this.tsmiLZ78.Name = "tsmiLZ78";
+            this.tsmiLZ78.Size = new System.Drawing.Size(176, 22);
+            this.tsmiLZ78.Text = "LZ78";
+            this.tsmiLZ78.Click += new System.EventHandler(this.tsmiLZ78_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 416);
+            this.ClientSize = new System.Drawing.Size(806, 437);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -254,6 +271,8 @@
         private System.Windows.Forms.ToolStripStatusLabel lBitCount;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel lBitPerChar;
+        private System.Windows.Forms.ToolStripStatusLabel lZippedCount;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLZ78;
     }
 }
 
