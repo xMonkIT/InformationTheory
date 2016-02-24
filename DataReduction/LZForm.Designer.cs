@@ -72,11 +72,16 @@
             0,
             0,
             0});
+            this.nudDictLength.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.nudDictLength.Name = "nudDictLength";
             this.nudDictLength.Size = new System.Drawing.Size(199, 20);
             this.nudDictLength.TabIndex = 4;
             this.nudDictLength.Value = new decimal(new int[] {
-            256,
+            128,
             0,
             0,
             0});
@@ -90,11 +95,16 @@
             0,
             0,
             0});
+            this.nudBufferLength.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudBufferLength.Name = "nudBufferLength";
             this.nudBufferLength.Size = new System.Drawing.Size(199, 20);
             this.nudBufferLength.TabIndex = 5;
             this.nudBufferLength.Value = new decimal(new int[] {
-            128,
+            64,
             0,
             0,
             0});
