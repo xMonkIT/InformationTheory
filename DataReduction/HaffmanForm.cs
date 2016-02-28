@@ -4,16 +4,6 @@ namespace DataReduction
 {
     public partial class HaffmanForm : Form
     {
-        class HaffmanTreeViewNode : TreeNode
-        {
-            public HaffmanTree.HaffmanTreeNode Value { get; }
-
-            public HaffmanTreeViewNode(string text, HaffmanTree.HaffmanTreeNode node) : base(text)
-            {
-                Value = node;
-            }
-        }
-
         public HaffmanForm(HaffmanTree tree)
         {
             InitializeComponent();
@@ -21,15 +11,19 @@ namespace DataReduction
             tvHaffmanTree.ExpandAll();
         }
 
-        private void TreeBypass(HaffmanTree.HaffmanTreeNode root, TreeNode node)
+        private static void TreeBypass(HaffmanTree.HaffmanTreeNode root, TreeNode node)
         {
-            if (root.Left == null)
+            while (true)
             {
-                node.Text = $"\"{root.Value}\" ({root.Weight}) - {node.FullPath}";
-                return;
+                if (root.Left == null)
+                {
+                    node.Text = $"\"{root.Value}\" ({root.Weight}) - {node.FullPath}";
+                    return;
+                }
+                TreeBypass(root.Left, node.Nodes.Add("0"));
+                root = root.Right;
+                node = node.Nodes.Add("1");
             }
-            TreeBypass(root.Left, node.Nodes.Add("0"));
-            TreeBypass(root.Right, node.Nodes.Add("1"));
         }
     }
 }

@@ -16,23 +16,6 @@ namespace DataReduction
             Updated();
         }
 
-        private void UpdateUI()
-        {
-            var alphabet = new Alphabet(rtbIncoming.Text);
-            var result = "";
-
-            alphabet.SortByFrequency(reverse: true);
-
-            foreach (var ch in alphabet.Chars) result += $"{ch}\t{alphabet.GetFrequency(ch)}\t{alphabet.GetRelativeFrequency(ch):0.000000}\r\n";
-
-            tbAlphabet.Text = result;
-            lCharCount.Text = alphabet.CharCount.ToString();
-            lBitCount.Text = alphabet.GetBitCount(Encoding.ASCII).ToString();
-            lBitPerChar.Text = alphabet.GetBitPerChar(Encoding.ASCII).ToString("0.###");
-            lEntropy.Text = alphabet.Entropy.ToString("0.###");
-            lZippedCount.Text = "";
-        }
-
         private void UpdateUIHaffman()
         {
             var alphabet = new Alphabet(rtbIncoming.Text);
@@ -58,15 +41,12 @@ namespace DataReduction
             lEntropy.BorderSides = ToolStripStatusLabelBorderSides.Right;
         }
 
-        private void rtbIncoming_TextChanged(object sender, EventArgs e)
-        {
-            Updated();
-        }
+        private void rtbIncoming_TextChanged(object sender, EventArgs e) => Updated?.Invoke();
 
         private void tsmiОткрыть_Click(object sender, EventArgs e)
         {
             // TODO: realize
-            MessageBox.Show("максимкаскотинка", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(@"максимкаскотинка", @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void tsmiДеревоХаффмана_Click(object sender, EventArgs e)

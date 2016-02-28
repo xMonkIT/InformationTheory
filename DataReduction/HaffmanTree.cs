@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Linq;
 
 namespace DataReduction
 {
@@ -6,8 +7,8 @@ namespace DataReduction
     {
         public class HaffmanTreeNode
         {
-            public HaffmanTreeNode Left { get; set; }
-            public HaffmanTreeNode Right { get; set; }
+            public HaffmanTreeNode Left { get; }
+            public HaffmanTreeNode Right { get; }
             public char? Value { get; }
             public int Weight { get; }
 
@@ -27,11 +28,9 @@ namespace DataReduction
 
         public HaffmanTreeNode Root { get; }
 
-        public HaffmanTree(Alphabet alphabet)
+        public HaffmanTree(IEnumerable alphabet)
         {
-            var list = new List<HaffmanTreeNode>();
-
-            foreach (Alphabet.AlphabetChar ch in alphabet) list.Add(new HaffmanTreeNode(ch.Char, ch.Frequency));
+            var list = (from Alphabet.AlphabetChar ch in alphabet select new HaffmanTreeNode(ch.Char, ch.Frequency)).ToList();
 
             while (list.Count > 1)
             {
@@ -43,17 +42,14 @@ namespace DataReduction
             if (list.Count > 0) Root = list[0];
         }
 
-        private string Post(char ch, HaffmanTreeNode root, string buff)
+        private static string Post(char ch, HaffmanTreeNode root, string buff)
         {
             if (root.Value == ch) return buff;
-            if (root.Left != null)
-            {
-                var str = Post(ch, root.Left, $"{buff}0");
-                if (str != "") return str;
-                str = Post(ch, root.Right, $"{buff}1");
-                return str;
-            }
-            return "";
+            if (root.Left == null) return "";
+            var str = Post(ch, root.Left, $"{buff}0");
+            if (str != "") return str;
+            str = Post(ch, root.Right, $"{buff}1");
+            return str;
         }
 
         public string GetCharCode(char ch) => Post(ch, Root, "");

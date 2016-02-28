@@ -10,11 +10,11 @@ namespace DataReduction
 
     public partial class LZForm : Form
     {
-        string _text = "";
+        readonly string _text;
         List<string> _dict = new List<string>();
-        List<string> _code = new List<string>();
-        int _length = 0;
-        LZType _type;
+        readonly List<string> _code = new List<string>();
+        int _length;
+        readonly LZType _type;
 
         public LZForm(LZType type, string incoming)
         {
@@ -34,7 +34,6 @@ namespace DataReduction
         {
             switch (_type)
             {
-                case LZType.LZ78:
                 default:
                     LZ78();
                     break;
@@ -45,7 +44,7 @@ namespace DataReduction
 
         private void UpdateUI()
         {
-            var max = 0;
+            int max;
 
             dgvData.Rows.Clear();
             if ((max = Math.Max(_dict.Count, _code.Count)) > 0) dgvData.Rows.Add(max);
@@ -63,7 +62,7 @@ namespace DataReduction
             cbZippType.SelectedItem = LZType.LZ78;
 
             var deletedDict = new List<string>();
-            int dictLength = (int)nudDictLength.Value;
+            var dictLength = (int)nudDictLength.Value;
             var dictPosSize = (int)Math.Ceiling(Math.Log(dictLength, 2));
             var text = _text;
 

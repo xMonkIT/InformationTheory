@@ -21,7 +21,7 @@ namespace DataReduction
         }
 
         readonly List<AlphabetChar> _alphabet;
-        string _incoming;
+        readonly string _incoming;
 
         public Alphabet(string incoming)
         {
