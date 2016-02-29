@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace DataReduction
 {
-    public enum LZType { LZ78 }
+    public enum LZType { LZ78, LZV }
 
     public partial class LZForm : Form
     {
@@ -14,19 +14,41 @@ namespace DataReduction
         List<string> _dict = new List<string>();
         readonly List<string> _code = new List<string>();
         int _length;
-        readonly LZType _type;
+        LZType _type;
+        private readonly Encoding _enc;
 
-        public LZForm(LZType type, string incoming)
+        public LZForm(LZType type, string incoming, Encoding enc)
         {
             InitializeComponent();
+
             _type = type;
             _text = incoming;
+            _enc = enc;
         }
+
+        public LZForm(LZType type, string incoming) : this(type, incoming, Encoding.GetEncoding("windows-1251")) { }
 
         private void LZForm_Load(object sender, EventArgs e)
         {
             cbZippType.DataSource = Enum.GetValues(typeof(LZType));
-            nudDictLength.ValueChanged += (sen, ev) => nudBufferLength.Maximum = nudDictLength.Value;
+            cbZippType.SelectedItem = _type;
+
+            switch (_type)
+            {
+                case LZType.LZ78:
+                    nudDictLength.Value = 256;
+                    break;
+                case LZType.LZV:
+                    nudDictLength.Value = 512;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            cbZippType.SelectedIndexChanged += cbZippType_SelectedIndexChanged;
+            nudDictLength.ValueChanged += nudDictLength_ValueChanged;
+            nudBufferLength.ValueChanged += nudBufferLength_ValueChanged;
+
             UpdateData();
         }
 
@@ -34,9 +56,14 @@ namespace DataReduction
         {
             switch (_type)
             {
-                default:
+                case LZType.LZ78:
                     LZ78();
                     break;
+                case LZType.LZV:
+                    LZV();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             UpdateUI();
@@ -59,7 +86,6 @@ namespace DataReduction
         {
             nudBufferLength.Enabled = false;
             lBuffer.Enabled = false;
-            cbZippType.SelectedItem = LZType.LZ78;
 
             var deletedDict = new List<string>();
             var dictLength = (int)nudDictLength.Value;
@@ -74,24 +100,15 @@ namespace DataReduction
 
             while (text.Length > 0)
             {
-                var el = "";
                 var sortedDict = _dict.Select(x => x).ToList();
                 sortedDict.Sort((x, y) => y.Length.CompareTo(x.Length));
 
-                foreach (var item in sortedDict)
-                {
-                    if (text.StartsWith(item))
-                    {
-                        el = item;
-                        break;
-                    }
-                }
-
+                var el = sortedDict.FirstOrDefault(x => text.StartsWith(x)) ?? "";
                 var len = el.Length;
 
                 _code.Add($"{_dict.IndexOf(el)}'{(text.Length == len ? "" : text.Substring(len, 1))}'");
                 if (len < text.Length) _dict.Add(text.Substring(0, len + 1));
-                _length += dictPosSize + (text.Length == len ? 0 : 8 * Encoding.ASCII.GetByteCount(text.Substring(len, 1)));
+                _length += dictPosSize + (text.Length == len ? 0 : 8 * _enc.GetByteCount(text.Substring(len, 1)));
 
                 if (_dict.Count > dictLength)
                 {
@@ -99,13 +116,84 @@ namespace DataReduction
                     _dict.RemoveAt(1);
                 }
 
-                text = text.Length == len ? "" : text.Substring(len + 1);
+                text = text.Substring(len + 1);
             }
 
             _dict = _dict.Select(x => $"'{x}'").ToList();
             _dict.InsertRange(1, deletedDict.Select(x => $"✘ '{x}'"));
         }
 
-        private void DataNeedUpdating(object sender, EventArgs e) => UpdateData();
+        private void LZV()
+        {
+            nudBufferLength.Enabled = false;
+            lBuffer.Enabled = false;
+
+            var deletedDict = new List<string>();
+            var dictLength = (int)nudDictLength.Value;
+            var dictPosSize = (int)Math.Ceiling(Math.Log(dictLength, 2));
+            var text = _text;
+
+            _dict.Clear();
+            deletedDict.Clear();
+            _code.Clear();
+
+            for (int i = 0; i < 256; i++) _dict.Add(_enc.GetString(new [] { (byte)i }));
+
+            _length = 0;
+
+            var w = "";
+
+            if (text.Length > 0)
+            {
+                w = text.Substring(0, 1);
+                text = text.Substring(1);
+            }
+
+            while (text.Length > 0)
+            {
+                var k = text.Substring(0, 1);
+
+                if (_dict.Contains($"{w}{k}")) w += k;
+                else
+                {
+                    _code.Add($"{(w.Length == 1 ? _enc.GetBytes(w)[0] : _dict.IndexOf(w))} (\"{w}\")");
+                    _dict.Add($"{w}{k}");
+                    w = k;
+                }
+
+                text = text.Substring(1);
+
+                if (_dict.Count <= dictLength) continue;
+                deletedDict.Add(_dict[256]);
+                _dict.RemoveAt(256);
+            }
+
+            if (w.Length > 0) _code.Add($"{_dict.IndexOf(w)} (\"{w}\")");
+
+            _length = dictPosSize*_code.Count;
+
+            _dict = _dict.Select(x => $"'{x}'").ToList();
+            _dict.InsertRange(256, deletedDict.Select(x => $"✘ '{x}'"));
+            _dict.RemoveRange(0, 255);
+            _dict[0] = "ASCII";
+        }
+
+        private void cbZippType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _type = (LZType)cbZippType.SelectedItem;
+            nudDictLength.Minimum = _type == LZType.LZV ? 257 : 2;
+            UpdateData();
+        }
+
+        private void nudDictLength_ValueChanged(object sender, EventArgs e)
+        {
+            nudBufferLength.Maximum = nudDictLength.Value;
+            UpdateData();
+        }
+
+        private void nudBufferLength_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateData();
+        }
     }
 }

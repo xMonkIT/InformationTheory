@@ -85,7 +85,6 @@
             0,
             0,
             0});
-            this.nudDictLength.ValueChanged += new System.EventHandler(this.DataNeedUpdating);
             // 
             // nudBufferLength
             // 
@@ -108,7 +107,6 @@
             0,
             0,
             0});
-            this.nudBufferLength.ValueChanged += new System.EventHandler(this.DataNeedUpdating);
             // 
             // dgvData
             // 
@@ -157,7 +155,6 @@
             this.cbZippType.Name = "cbZippType";
             this.cbZippType.Size = new System.Drawing.Size(199, 21);
             this.cbZippType.TabIndex = 8;
-            this.cbZippType.SelectedIndexChanged += new System.EventHandler(this.DataNeedUpdating);
             // 
             // statusStrip1
             // 

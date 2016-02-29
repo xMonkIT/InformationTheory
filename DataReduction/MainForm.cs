@@ -8,10 +8,13 @@ namespace DataReduction
     {
         private delegate void Updating();
         private event Updating Updated;
+        private Encoding _encoding;
 
         public MainForm()
         {
             InitializeComponent();
+
+            _encoding = Encoding.GetEncoding("windows-1251");
             Updated = UpdateUIHaffman;
             Updated();
         }
@@ -34,8 +37,8 @@ namespace DataReduction
 
             tbAlphabet.Text = result;
             lCharCount.Text = alphabet.CharCount.ToString();
-            lBitCount.Text = alphabet.GetBitCount(Encoding.ASCII).ToString();
-            lBitPerChar.Text = alphabet.GetBitPerChar(Encoding.ASCII).ToString("0.###");
+            lBitCount.Text = alphabet.GetBitCount(_encoding).ToString();
+            lBitPerChar.Text = alphabet.GetBitPerChar(_encoding).ToString("0.###");
             lEntropy.Text = alphabet.Entropy.ToString("0.###");
             lZippedCount.Text = $"Количество бит сжатого текста: {count}";
             lEntropy.BorderSides = ToolStripStatusLabelBorderSides.Right;
@@ -58,5 +61,7 @@ namespace DataReduction
         }
 
         private void tsmiLZ78_Click(object sender, EventArgs e) => new LZForm(LZType.LZ78, rtbIncoming.Text).Show();
+
+        private void tsmiLZV_Click(object sender, EventArgs e) => new LZForm(LZType.LZV, rtbIncoming.Text).Show();
     }
 }
