@@ -35,6 +35,7 @@
             this.tsmiАлгоритмыСжатия = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiДеревоХаффмана = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiLZ78 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLZV = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lCharCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -49,7 +50,7 @@
             this.rtbIncoming = new System.Windows.Forms.RichTextBox();
             this.tbAlphabet = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.tsmiLZV = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLZSS = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -91,7 +92,8 @@
             this.tsmiАлгоритмыСжатия.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiДеревоХаффмана,
             this.tsmiLZ78,
-            this.tsmiLZV});
+            this.tsmiLZV,
+            this.tsmiLZSS});
             this.tsmiАлгоритмыСжатия.Name = "tsmiАлгоритмыСжатия";
             this.tsmiАлгоритмыСжатия.Size = new System.Drawing.Size(125, 20);
             this.tsmiАлгоритмыСжатия.Text = "Алгоритмы сжатия";
@@ -109,6 +111,13 @@
             this.tsmiLZ78.Size = new System.Drawing.Size(176, 22);
             this.tsmiLZ78.Text = "LZ78";
             this.tsmiLZ78.Click += new System.EventHandler(this.tsmiLZ78_Click);
+            // 
+            // tsmiLZV
+            // 
+            this.tsmiLZV.Name = "tsmiLZV";
+            this.tsmiLZV.Size = new System.Drawing.Size(176, 22);
+            this.tsmiLZV.Text = "LZV";
+            this.tsmiLZV.Click += new System.EventHandler(this.tsmiLZV_Click);
             // 
             // statusStrip1
             // 
@@ -227,12 +236,12 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // tsmiLZV
+            // tsmiLZSS
             // 
-            this.tsmiLZV.Name = "tsmiLZV";
-            this.tsmiLZV.Size = new System.Drawing.Size(176, 22);
-            this.tsmiLZV.Text = "LZV";
-            this.tsmiLZV.Click += new System.EventHandler(this.tsmiLZV_Click);
+            this.tsmiLZSS.Name = "tsmiLZSS";
+            this.tsmiLZSS.Size = new System.Drawing.Size(176, 22);
+            this.tsmiLZSS.Text = "LZSS";
+            this.tsmiLZSS.Click += new System.EventHandler(this.tsmiLZSS_Click);
             // 
             // MainForm
             // 
@@ -282,6 +291,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lZippedCount;
         private System.Windows.Forms.ToolStripMenuItem tsmiLZ78;
         private System.Windows.Forms.ToolStripMenuItem tsmiLZV;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLZSS;
     }
 }
 

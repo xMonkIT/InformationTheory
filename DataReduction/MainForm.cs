@@ -63,5 +63,7 @@ namespace DataReduction
         private void tsmiLZ78_Click(object sender, EventArgs e) => new LZForm(LZType.LZ78, rtbIncoming.Text).Show();
 
         private void tsmiLZV_Click(object sender, EventArgs e) => new LZForm(LZType.LZV, rtbIncoming.Text).Show();
+
+        private void tsmiLZSS_Click(object sender, EventArgs e) => new LZForm(LZType.LZSS, rtbIncoming.Text).Show();
     }
 }

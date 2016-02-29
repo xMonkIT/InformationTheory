@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace DataReduction
 {
-    public enum LZType { LZ78, LZV }
+    public enum LZType { LZ78, LZV, LZSS }
 
     public partial class LZForm : Form
     {
@@ -41,6 +41,10 @@ namespace DataReduction
                 case LZType.LZV:
                     nudDictLength.Value = 512;
                     break;
+                case LZType.LZSS:
+                    nudDictLength.Value = 128;
+                    nudBufferLength.Value = 64;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -61,6 +65,9 @@ namespace DataReduction
                     break;
                 case LZType.LZV:
                     LZV();
+                    break;
+                case LZType.LZSS:
+                    LZSS();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -176,6 +183,58 @@ namespace DataReduction
             _dict.InsertRange(256, deletedDict.Select(x => $"✘ '{x}'"));
             _dict.RemoveRange(0, 255);
             _dict[0] = "ASCII";
+        }
+
+        private void LZSS()
+        {
+            nudBufferLength.Enabled = true;
+            lBuffer.Enabled = true;
+            
+            var dictLength = (int)nudDictLength.Value;
+            var buffLength = (int) nudBufferLength.Value;
+            var dictPosSize = (int)Math.Ceiling(Math.Log(dictLength, 2));
+            var buffSize = (int)Math.Ceiling(Math.Log(buffLength, 2));
+            var text = _text;
+            var dict = "";
+            var buff = text.Substring(0, text.Length > buffLength ? buffLength : text.Length);
+
+            _dict.Clear();
+            _code.Clear();
+            _length = 0;
+
+            while (buff.Length > 0)
+            {
+                var response = "";
+
+                while (response.Length != buff.Length &&
+                       dict.Contains($"{response}{buff.Substring(response.Length, 1)}"))
+                    response += buff[response.Length];
+
+                if (response.Length == 0)
+                {
+                    _code.Add($"0'{buff[0]}'");
+                    _length += 1 + _enc.GetByteCount(buff.Substring(0, 1)) * 8;
+                }
+                else
+                {
+                    var index = dict.IndexOf(response, StringComparison.Ordinal);
+                    index += dictLength - dict.Length;
+                    _code.Add($"1<{index},{response.Length}>");
+                    _length += 1 + dictPosSize + buffSize;
+                    dict += text.Substring(0, response.Length - 1);
+                    if (dict.Length > dictLength) dict = dict.Substring(dict.Length - dictLength - 1);
+                    text = text.Substring(response.Length - 1);
+                }
+                
+                _dict.Add($"'{dict}' - '{buff}'");
+
+                dict += text[0];
+                if (dict.Length > dictLength) dict = dict.Substring(1);
+
+                buff = text.Substring(1, buffLength < text.Length - 1 ? buffLength : text.Length - 1);
+
+                text = text.Substring(1);
+            }
         }
 
         private void cbZippType_SelectedIndexChanged(object sender, EventArgs e)
