@@ -115,7 +115,7 @@ namespace DataReduction
 
                 _code.Add($"{_dict.IndexOf(el)}'{(text.Length == len ? "" : text.Substring(len, 1))}'");
                 if (len < text.Length) _dict.Add(text.Substring(0, len + 1));
-                _length += dictPosSize + (text.Length == len ? 0 : 8 * _enc.GetByteCount(text.Substring(len, 1)));
+                _length += dictPosSize + (text.Length == len ? 0 : 8*_enc.GetByteCount(text.Substring(len, 1)));
 
                 if (_dict.Count > dictLength)
                 {
@@ -123,7 +123,7 @@ namespace DataReduction
                     _dict.RemoveAt(1);
                 }
 
-                text = text.Substring(len + 1);
+                text = text.Substring((text.Length == len ? len - 1 : len) + 1);
             }
 
             _dict = _dict.Select(x => $"'{x}'").ToList();
