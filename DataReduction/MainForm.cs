@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -48,8 +49,8 @@ namespace DataReduction
 
         private void tsmiОткрыть_Click(object sender, EventArgs e)
         {
-            // TODO: realize
-            MessageBox.Show(@"максимкаскотинка", @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (!ofdTextFile.ShowDialog().Equals(DialogResult.OK)) return;
+            rtbIncoming.Text = File.ReadAllText(ofdTextFile.FileName);
         }
 
         private void tsmiДеревоХаффмана_Click(object sender, EventArgs e)

@@ -36,6 +36,7 @@
             this.tsmiДеревоХаффмана = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiLZ78 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiLZV = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLZSS = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lCharCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -49,8 +50,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.rtbIncoming = new System.Windows.Forms.RichTextBox();
             this.tbAlphabet = new System.Windows.Forms.TextBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.tsmiLZSS = new System.Windows.Forms.ToolStripMenuItem();
+            this.ofdTextFile = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -118,6 +118,13 @@
             this.tsmiLZV.Size = new System.Drawing.Size(176, 22);
             this.tsmiLZV.Text = "LZV";
             this.tsmiLZV.Click += new System.EventHandler(this.tsmiLZV_Click);
+            // 
+            // tsmiLZSS
+            // 
+            this.tsmiLZSS.Name = "tsmiLZSS";
+            this.tsmiLZSS.Size = new System.Drawing.Size(176, 22);
+            this.tsmiLZSS.Text = "LZSS";
+            this.tsmiLZSS.Click += new System.EventHandler(this.tsmiLZSS_Click);
             // 
             // statusStrip1
             // 
@@ -232,16 +239,10 @@
             this.tbAlphabet.Size = new System.Drawing.Size(351, 389);
             this.tbAlphabet.TabIndex = 0;
             // 
-            // openFileDialog1
+            // ofdTextFile
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // tsmiLZSS
-            // 
-            this.tsmiLZSS.Name = "tsmiLZSS";
-            this.tsmiLZSS.Size = new System.Drawing.Size(176, 22);
-            this.tsmiLZSS.Text = "LZSS";
-            this.tsmiLZSS.Click += new System.EventHandler(this.tsmiLZSS_Click);
+            this.ofdTextFile.Filter = "Текстовые файлы|*.txt|Все файлы|*";
+            this.ofdTextFile.Title = "Выберите текстовый файл:";
             // 
             // MainForm
             // 
@@ -283,7 +284,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiОткрыть;
         private System.Windows.Forms.ToolStripMenuItem tsmiАлгоритмыСжатия;
         private System.Windows.Forms.ToolStripMenuItem tsmiДеревоХаффмана;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog ofdTextFile;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel lBitCount;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
