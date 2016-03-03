@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataCheck
@@ -9,20 +10,12 @@ namespace DataCheck
         {
             enc = enc ?? Encoding.GetEncoding("windows-1251");
 
-            var originalBits = text.GetBitsString(enc);
-            var result = "";
-            var wordCount = originalBits.Length / infWordLength;
-
-            for (int i = 0; i < wordCount; i++)
-                result += originalBits
-                    .Substring(i * infWordLength, infWordLength)
-                    .InsertControlBits()
-                    .CalcControlBits();
-
-            return result += originalBits
-                .Substring(wordCount * infWordLength)
+            return string.Join("", text
+                .GetBitsString(enc)
+                .Split(infWordLength)
                 .InsertControlBits()
-                .CalcControlBits();
+                .CalcControlBits()
+              );
         }
 
         public static string InsertControlBits(this string infWord)
@@ -40,6 +33,9 @@ namespace DataCheck
             return string.Join("", code);
         }
 
+        public static IEnumerable<string> InsertControlBits(this IEnumerable<string> infWords)
+            => infWords.Select(InsertControlBits);
+
         public static string CalcControlBits(this string oldCode)
         {
             var code = oldCode.ToCharArray();
@@ -48,11 +44,17 @@ namespace DataCheck
             {
                 var k = (1 << j) - 1;
 
-                code[k] = (code.Select((ch, ind) => ind > k && ch.Equals('1') && (ind - k) / (k + 1) % 2 == 0).Count() % 2).ToString()[0];
+                code[k] = (code
+                    .Where((ch, ind) => ind > k && ch.Equals('1') && (ind - k) / (k + 1) % 2 == 0)
+                    .Count() % 2
+                  ).ToString()[0];
             }
 
             return string.Join("", code);
         }
+
+        public static IEnumerable<string> CalcControlBits(this IEnumerable<string> oldCodes)
+            => oldCodes.Select(CalcControlBits); 
 
         public static string GetBitsString(this string text, Encoding enc = null)
         {
@@ -95,5 +97,12 @@ namespace DataCheck
 
             return count;
         }
+
+        public static IEnumerable<string> Split(this string str, int length)
+        {
+            var count = str.Length/length;
+            for (int i = 0; i < count; i++) yield return str.Substring(i*length, length);
+            if (count*length < str.Length) yield return str.Substring(count*length);
+        } 
     }
 }
