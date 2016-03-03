@@ -1,11 +1,14 @@
-﻿namespace DataReduction
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace DataReduction
 {
     partial class LZForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -207,17 +210,17 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lBuffer;
-        private System.Windows.Forms.NumericUpDown nudDictLength;
-        private System.Windows.Forms.NumericUpDown nudBufferLength;
-        private System.Windows.Forms.DataGridView dgvData;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dictionary;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Code;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cbZippType;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel lZippedCount;
+        private Label label1;
+        private Label lBuffer;
+        private NumericUpDown nudDictLength;
+        private NumericUpDown nudBufferLength;
+        private DataGridView dgvData;
+        private DataGridViewTextBoxColumn Dictionary;
+        private DataGridViewTextBoxColumn Code;
+        private Label label2;
+        private ComboBox cbZippType;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripStatusLabel lZippedCount;
     }
 }

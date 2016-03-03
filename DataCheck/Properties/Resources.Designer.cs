@@ -16,7 +16,7 @@ using System.Globalization;
 using System.Resources;
 using System.Runtime.CompilerServices;
 
-namespace DataReduction.Properties
+namespace DataCheck.Properties
 {
 
 
@@ -52,7 +52,7 @@ namespace DataReduction.Properties
             {
                 if ((resourceMan == null))
                 {
-                    ResourceManager temp = new ResourceManager("DataReduction.Properties.Resources", typeof(Resources).Assembly);
+                    ResourceManager temp = new ResourceManager("DataCheck.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
