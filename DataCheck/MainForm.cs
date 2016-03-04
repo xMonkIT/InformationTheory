@@ -18,14 +18,25 @@ namespace DataCheck
 
         private void UpdateUIHamming()
         {
-            rtbOriginalBits.Text = string.Join(_splitter,
-                rtbIncoming.Text.GetBitsString().Split((int) nudInfWordLength.Value));
-            rtbWithAdditionalBits.Text = string.Join(_splitter,
-                rtbIncoming.Text.GetHammingCode((int) nudInfWordLength.Value)
-                    .Split((int) nudInfWordLength.Value + HammingCode.GetKeysCount((int) nudInfWordLength.Value)));
+            var len = (int) nudInfWordLength.Value;
+
+            rtbOriginalBits.Text = string.Join
+                (
+                    _splitter,
+                    rtbIncoming.Text
+                        .GetBitsString()
+                        .Split(len)
+                );
+            rtbWithAdditionalBits.Text = string.Join
+                (
+                    _splitter,
+                    rtbIncoming.Text
+                        .GetHammingCode((int) nudInfWordLength.Value)
+                        .Split(len + HammingCode.GetKeysCount(len))
+                );
         }
 
-        private void rtbIncoming_TextChanged(object sender, System.EventArgs e) => UpdateUI();
+        private void rtbIncoming_TextChanged(object sender, EventArgs e) => UpdateUI();
 
         private void nudInfWordLength_ValueChanged(object sender, EventArgs e) => UpdateUI();
 
@@ -37,7 +48,13 @@ namespace DataCheck
 
         private void bShowExample_Click(object sender, EventArgs e)
         {
-            new HammingExampleForm(rtbIncoming.Text.GetBitsString().Split((int)nudInfWordLength.Value).FirstOrDefault()).Show();
+            new HammingExampleForm
+                (
+                    rtbIncoming.Text
+                        .GetBitsString()
+                        .Split((int) nudInfWordLength.Value)
+                        .FirstOrDefault()
+                ).Show();
         }
     }
 }
