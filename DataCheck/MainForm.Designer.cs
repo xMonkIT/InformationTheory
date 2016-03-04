@@ -150,6 +150,7 @@ namespace DataCheck
             this.bShowExample.TabIndex = 5;
             this.bShowExample.Text = "Показать пример";
             this.bShowExample.UseVisualStyleBackColor = true;
+            this.bShowExample.Click += new System.EventHandler(this.bShowExample_Click);
             // 
             // splitContainer1
             // 

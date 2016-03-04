@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DataCheck
@@ -32,6 +33,11 @@ namespace DataCheck
         {
             _splitter = cbNewString.CheckState.Equals(CheckState.Checked) ? "\r\n" : "";
             UpdateUI();
+        }
+
+        private void bShowExample_Click(object sender, EventArgs e)
+        {
+            new HammingExampleForm(rtbIncoming.Text.GetBitsString().Split((int)nudInfWordLength.Value).FirstOrDefault()).Show();
         }
     }
 }
