@@ -75,5 +75,8 @@ namespace DataReduction
         {
             return ((IEnumerable)_alphabet).GetEnumerator();
         }
+
+        public IEnumerable<KeyValuePair<char, int>> ToKeyValuePairs()
+            => _alphabet.Select(ch => new KeyValuePair<char, int>(ch.Char, ch.Frequency));
     }
 }

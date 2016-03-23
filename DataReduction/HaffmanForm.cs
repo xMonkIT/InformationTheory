@@ -4,14 +4,14 @@ namespace DataReduction
 {
     public partial class HaffmanForm : Form
     {
-        public HaffmanForm(HaffmanTree tree)
+        public HaffmanForm(HaffmanTree<char> tree)
         {
             InitializeComponent();
             if (tree.Root != null) TreeBypass(tree.Root, tvHaffmanTree.Nodes.Add(""));
             tvHaffmanTree.ExpandAll();
         }
 
-        private static void TreeBypass(HaffmanTree.HaffmanTreeNode root, TreeNode node)
+        private static void TreeBypass(HaffmanTree<char>.HaffmanTreeNode<char> root, TreeNode node)
         {
             while (true)
             {

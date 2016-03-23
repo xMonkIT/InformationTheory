@@ -1,24 +1,24 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace DataReduction
 {
-    public class HaffmanTree
+    public class HaffmanTree<T>
     {
-        public class HaffmanTreeNode
+        public class HaffmanTreeNode<TNode>
         {
-            public HaffmanTreeNode Left { get; }
-            public HaffmanTreeNode Right { get; }
-            public char? Value { get; }
+            public HaffmanTreeNode<TNode> Left { get; }
+            public HaffmanTreeNode<TNode> Right { get; }
+            public TNode Value { get; }
             public int Weight { get; }
 
-            public HaffmanTreeNode(char ch, int fr)
+            public HaffmanTreeNode(TNode value, int fr)
             {
-                Value = ch;
+                Value = value;
                 Weight = fr;
             }
 
-            public HaffmanTreeNode(int fr, HaffmanTreeNode left, HaffmanTreeNode right)
+            public HaffmanTreeNode(int fr, HaffmanTreeNode<TNode> left, HaffmanTreeNode<TNode> right)
             {
                 Weight = fr;
                 Left = left;
@@ -26,32 +26,32 @@ namespace DataReduction
             }
         }
 
-        public HaffmanTreeNode Root { get; }
+        public HaffmanTreeNode<T> Root { get; }
 
-        public HaffmanTree(IEnumerable alphabet)
+        public HaffmanTree(IEnumerable<KeyValuePair<T, int>> keyValuePairs)
         {
-            var list = (from Alphabet.AlphabetChar ch in alphabet select new HaffmanTreeNode(ch.Char, ch.Frequency)).ToList();
+            var list = keyValuePairs.Select(x => new HaffmanTreeNode<T>(x.Key, x.Value)).ToList();
 
             while (list.Count > 1)
             {
                 list.Sort((x, y) => x.Weight.CompareTo(y.Weight));
-                list.Add(new HaffmanTreeNode(list[0].Weight + list[1].Weight, list[0], list[1]));
+                list.Add(new HaffmanTreeNode<T>(list[0].Weight + list[1].Weight, list[0], list[1]));
                 list.RemoveRange(0, 2);
             }
 
             if (list.Count > 0) Root = list[0];
         }
 
-        private static string Post(char ch, HaffmanTreeNode root, string buff)
+        private static string Post(T value, HaffmanTreeNode<T> root, string buff)
         {
-            if (root.Value == ch) return buff;
+            if (root.Value.Equals(value)) return buff;
             if (root.Left == null) return "";
-            var str = Post(ch, root.Left, $"{buff}0");
+            var str = Post(value, root.Left, $"{buff}0");
             if (str != "") return str;
-            str = Post(ch, root.Right, $"{buff}1");
+            str = Post(value, root.Right, $"{buff}1");
             return str;
         }
 
-        public string GetCharCode(char ch) => Post(ch, Root, "");
+        public string GetCharCode(T value) => Post(value, Root, "");
     }
 }

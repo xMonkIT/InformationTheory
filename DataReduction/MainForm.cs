@@ -24,7 +24,7 @@ namespace DataReduction
         {
             var alphabet = new Alphabet(rtbIncoming.Text);
             var result = "";
-            var tree = new HaffmanTree(alphabet);
+            var tree = new HaffmanTree<char>(alphabet.ToKeyValuePairs());
             var count = 0;
 
             alphabet.SortByFrequency(reverse: true);
@@ -55,7 +55,7 @@ namespace DataReduction
 
         private void tsmiДеревоХаффмана_Click(object sender, EventArgs e)
         {
-            var tree = new HaffmanTree(new Alphabet(rtbIncoming.Text));
+            var tree = new HaffmanTree<char>(new Alphabet(rtbIncoming.Text).ToKeyValuePairs());
             new HaffmanForm(tree).Show();
             Updated = UpdateUIHaffman;
             Updated();
