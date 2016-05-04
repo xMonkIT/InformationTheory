@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataReduction", "DataReduction\DataReduction.csproj", "{992E30C3-A9AB-4382-B03B-4E4ED7E39BB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCheck", "DataCheck\DataCheck.csproj", "{73F0F12E-E115-47A8-A7AE-295B459869F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goley", "Goley\Goley.csproj", "{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{73F0F12E-E115-47A8-A7AE-295B459869F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73F0F12E-E115-47A8-A7AE-295B459869F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73F0F12E-E115-47A8-A7AE-295B459869F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
