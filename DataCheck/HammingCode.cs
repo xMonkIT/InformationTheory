@@ -84,19 +84,7 @@ namespace DataCheck
             return count;
         }
 
-        public static int GetKeysCount(string code)
-        {
-            var count = 0;
-            var remainingBits = code.Length;
-
-            while (remainingBits > 0)
-            {
-                remainingBits -= 1 << count;
-                count++;
-            }
-
-            return count;
-        }
+        public static int GetKeysCount(string code) => GetKeysCount(code.Length);
 
         public static IEnumerable<string> Split(this string str, int length)
         {
