@@ -15,6 +15,18 @@ namespace Goley
         private void MainForm_Load(object sender, EventArgs e)
         {
             bPerfect.PerformClick();
+            FillRandom(dgvInitialData);
+            FillResultsDgv();
+        }
+
+        private void FillRandom(DataGridView dgv)
+        {
+            var rand = new Random();
+
+            for (int i = 0; i < dgv.ColumnCount; i++)
+                dgv[i, 0].Value = rand.Next() % 2;
+
+            if (dgv.ColumnCount > 0) dgv[0, 0].Value = 1;
         }
 
         private void nud_ValueChanged(object sender, EventArgs e)
@@ -106,6 +118,17 @@ namespace Goley
 
         private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            var cell = (sender as DataGridView)?[e.ColumnIndex, e.RowIndex];
+
+            if (cell == null) throw new ArgumentException("sender must be dataGridView");
+
+            cell.Value = Math.Abs(int.Parse(cell.Value.ToString()))%2;
+
+            FillResultsDgv();
+        }
+
+        private void FillResultsDgv()
+        {
             var result = GetAddingData();
 
             for (int i = 0; i < result.Count; i++)
@@ -115,7 +138,7 @@ namespace Goley
             }
         }
 
-        private List<int> NormalizePolynom(List<int> polynom) =>
+        private static List<int> NormalizePolynom(IEnumerable<int> polynom) =>
             polynom.Select(x => Math.Abs(x)%2).ToList();
 
         private List<int> DividePolynoms(List<int> a, List<int> b)
@@ -125,12 +148,11 @@ namespace Goley
 
             var result = temp.ToList();
 
-            for (int i = 0; i < result.Count - b.Count; i++)
-                if (result[i] == 1)
-                {
-                    for (int j = i; j < i + b.Count; j++) result[j] -= b[j - i];
-                    result = NormalizePolynom(result);
-                }
+            for (int i = 0; i <= result.Count - b.Count; i++)
+            {
+                for (int j = i; j < i + b.Count; j++) result[j] -= result[i]*b[j - i];
+                result = NormalizePolynom(result);
+            }
 
             while (result.Count > 0 && result[0] == 0) result.RemoveAt(0);
 
@@ -144,7 +166,7 @@ namespace Goley
             if (result.Count > 0)
                 MessageBox.Show(
                     "В полиноме есть ошибка\nОстаток: " + string.Join("", result),
-                    @"Error!", MessageBoxButtons.OK,
+                    "Error!", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             else
                 MessageBox.Show(
@@ -163,6 +185,13 @@ namespace Goley
             var polynom = new[] {1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1};
 
             for (var i = 0; i < polynom.Length; i++) dgvPolynom[i, 0].Value = polynom[i];
+        }
+
+        private void dgv_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.F5) return;
+            FillRandom(sender as DataGridView);
+            FillResultsDgv();
         }
     }
 }

@@ -103,6 +103,7 @@
             this.dgvInitialData.Size = new System.Drawing.Size(511, 22);
             this.dgvInitialData.TabIndex = 1;
             this.dgvInitialData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellEndEdit);
+            this.dgvInitialData.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgv_KeyUp);
             // 
             // label1
             // 
