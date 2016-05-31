@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -40,7 +41,7 @@ namespace DataCheck
         {
             var code = oldCode.ToCharArray();
 
-            for (int j = 0; j < GetKeysCount(oldCode); j++)
+            for (int j = 0; j < GetKeysCount(oldCode, true); j++)
             {
                 var k = (1 << j) - 1;
 
@@ -84,7 +85,10 @@ namespace DataCheck
             return count;
         }
 
-        public static int GetKeysCount(string code) => GetKeysCount(code.Length);
+        public static int GetKeysCount(string code, bool withKeys = false) =>
+            withKeys ?
+                (int)Math.Ceiling(Math.Log(code.Length, 2)) :
+                GetKeysCount(code.Length);
 
         public static IEnumerable<string> Split(this string str, int length)
         {
