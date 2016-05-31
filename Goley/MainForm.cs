@@ -150,7 +150,8 @@ namespace Goley
 
             for (int i = 0; i <= result.Count - b.Count; i++)
             {
-                for (int j = i; j < i + b.Count; j++) result[j] -= result[i]*b[j - i];
+                var k = result[i];
+                for (int j = i; j < i + b.Count; j++) result[j] -= k*b[j - i];
                 result = NormalizePolynom(result);
             }
 
