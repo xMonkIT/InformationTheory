@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -46,6 +47,9 @@ namespace Goley
             dgvPolynom.Rows.Clear();
             dgvPolynom.Columns.Clear();
 
+            dgvResult.Rows.Clear();
+            dgvResult.Columns.Clear();
+
             for (var i = 0; i < initialLength; i++) dgvInitialData.Columns.Add($"{i}", $"{i}");
             for (var i = 0; i < checkerLength; i++) dgvPolynom.Columns.Add($"{i}", $"{i}");
 
@@ -53,12 +57,14 @@ namespace Goley
             {
                 dgvAddingData.Columns.Add($"{i}", $"{i}");
                 dgvErrorCheck.Columns.Add($"{i}", $"{i}");
+                dgvResult.Columns.Add($"{i}", $"{i}");
             }
 
             dgvInitialData.Rows.Add();
             dgvPolynom.Rows.Add();
             dgvAddingData.Rows.Add();
             dgvErrorCheck.Rows.Add();
+            dgvResult.Rows.Add();
 
             for (var i = 0; i < initialLength; i++) dgvInitialData[i, 0].Value = 0;
             for (var i = 0; i < checkerLength; i++) dgvPolynom[i, 0].Value = 0;
@@ -155,24 +161,28 @@ namespace Goley
                 result = NormalizePolynom(result);
             }
 
-            while (result.Count > 0 && result[0] == 0) result.RemoveAt(0);
-
             return result;
         }
 
         private void bCheck_Click(object sender, EventArgs e)
         {
+            if (nudCheckerLength.Value == 11 && nudInitialLength.Value == 11)
+            {
+                CheckData();
+                return;
+            } 
+
             var result = DividePolynoms(GetPolynom(dgvErrorCheck), GetPolynom(dgvPolynom));
 
-            if (result.Count > 0)
+            if (result.Count(x => x == 1) > 0)
                 MessageBox.Show(
-                    "В полиноме есть ошибка\nОстаток: " + string.Join("", result),
-                    "Error!", MessageBoxButtons.OK,
+                    $"В полиноме есть ошибка\nОстаток: " + string.Join("", result),
+                    $"Error!", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             else
                 MessageBox.Show(
-                    "В полиноме ошибок не обнаружено",
-                    "Info",
+                    $"В полиноме ошибок не обнаружено",
+                    $"Info",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
@@ -193,6 +203,102 @@ namespace Goley
             if (e.KeyCode != Keys.F5) return;
             FillRandom(sender as DataGridView);
             FillResultsDgv();
+        }
+
+        private int GetWeight(IEnumerable<int> polynom) => polynom.Count(x => x == 1);
+
+        private void FillDgv(DataGridView dgv, IList<int> polynom)
+        {
+            dgv.Rows.Clear();
+            dgv.Rows.Add();
+
+            for (var i = 0; i < polynom.Count; i++) dgv[i, 0].Value = polynom[i];
+        }
+
+        private void MarkErrors(IList<int> errors)
+        {
+            var errorStyle = new DataGridViewCellStyle {BackColor = Color.Red};
+            var defaultStyle = dgvInitialData[0, 0].Style;
+
+            for (int i = 0; i < errors.Count; i++)
+                dgvErrorCheck[i, 0].Style = errors[i] == 1 ? errorStyle : defaultStyle;
+        }
+
+        private IEnumerable<int> XorPolynoms(IEnumerable<int> first, IEnumerable<int> second) =>
+            first.Zip(second, (x, y) => x ^ y);
+
+        private IEnumerable<int> Shift(IEnumerable<int> polynom, bool reverse = false)
+        {
+            var arr = polynom as int[] ?? polynom.ToArray();
+            var count = reverse ? 1 : arr.Length - 1;
+
+            return arr.Skip(count).Concat(arr.Take(count));
+        }
+
+        private void CheckData()
+        {
+            var initialPolynom = GetPolynom(dgvErrorCheck);
+            var polynom = GetPolynom(dgvPolynom);
+            var syndrome = DividePolynoms(initialPolynom, polynom);
+
+            if (GetWeight(syndrome) == 0)
+            {
+                FillDgv(dgvResult, initialPolynom);
+                return;
+            }
+            if (GetWeight(syndrome) <= 3)
+            {
+                MarkErrors(syndrome);
+                FillDgv(dgvResult, XorPolynoms(initialPolynom, syndrome).ToList());
+                return;
+            }
+
+            var shiftCount = 0;
+
+            var initial17 = new List<int> {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            var initial18 = new List<int> {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+            var syndrome17 = DividePolynoms(initial17, polynom);
+            var syndrome18 = DividePolynoms(initial18, polynom);
+
+            while (shiftCount < initialPolynom.Count)
+            {
+                var temp17 = XorPolynoms(syndrome17, syndrome).ToList();
+                var temp18 = XorPolynoms(syndrome18, syndrome).ToList();
+
+                var errors = GetWeight(temp17) < 3
+                    ? temp17.Select((x, i) => i == 6 ? 1 : x).ToList()
+                    : GetWeight(temp18) < 3
+                        ? temp18.Select((x, i) => i == 5 ? 1 : x).ToList()
+                        : null;
+
+                if (errors != null)
+                {
+                    for (int i = 0; i < shiftCount; i++)
+                        errors = Shift(errors, true).ToList();
+                    for (int i = 0; i < shiftCount; i++)
+                        initialPolynom = Shift(initialPolynom, true).ToList();
+                    MarkErrors(errors);
+                    FillDgv(dgvResult, XorPolynoms(initialPolynom, errors).ToList());
+                    return;
+                }
+
+                initialPolynom = Shift(initialPolynom).ToList();
+                syndrome = DividePolynoms(initialPolynom, polynom);
+                shiftCount++;
+            }
+
+            MessageBox.Show(
+                @"В полиноме больше 3 ошибок",
+                @"Error!",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
+
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var cell = (sender as DataGridView)?[e.ColumnIndex, e.RowIndex];
+            if (cell != null) cell.Value = 1 ^ (int)cell.Value;
         }
     }
 }
