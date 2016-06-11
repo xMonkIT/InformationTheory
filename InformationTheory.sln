@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCheck", "DataCheck\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goley", "Goley\Goley.csproj", "{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LZ78Archiver", "LZ78Archiver\LZ78Archiver.csproj", "{03596534-802E-48EF-83BD-3B80EAD4EE56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAEC13ED-39EC-4EDB-9BE7-DED16A496C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03596534-802E-48EF-83BD-3B80EAD4EE56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03596534-802E-48EF-83BD-3B80EAD4EE56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03596534-802E-48EF-83BD-3B80EAD4EE56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03596534-802E-48EF-83BD-3B80EAD4EE56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
